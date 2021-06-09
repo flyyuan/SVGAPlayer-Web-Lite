@@ -215,6 +215,7 @@ export default class Player {
       this.currentFrame = startFrame || 0
     }
 
+    // 计算动画参数并赋值
     this._animator.startValue = playMode === 'fallbacks' ? (endFrame || totalFramesCount) : (startFrame || 0)
     this._animator.endValue = playMode === 'fallbacks' ? (startFrame || 0) : (endFrame || totalFramesCount)
 

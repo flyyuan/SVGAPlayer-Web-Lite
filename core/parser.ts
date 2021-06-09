@@ -23,7 +23,13 @@ export default class Parser {
     }
   }
 
+  /**
+   * 转换为 VideoEntity
+   *  */ 
   do (data: ArrayBuffer): Promise<Object> {
+    /**
+     * 判断 svga 数据是否为 @1.x 版本
+     */
     const dataHeader = new Uint8Array(data, 0, 4)
 
     if (dataHeader[0] == 80 && dataHeader[1] == 75 && dataHeader[2] == 3 && dataHeader[3] == 4) {

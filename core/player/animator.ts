@@ -46,6 +46,7 @@ export default class Animator {
     this._isRunning = true
     this._mStartTime = this._currentTimeMillsecond()
 
+      // 计算开始时间和当前帧时间
     currentValue && (this._mStartTime -= currentValue / (this.endValue - this.startValue) * this.duration)
 
     this._currentFrication = 0.0

@@ -62,6 +62,7 @@ export default class Renderer {
       this._player.container.width = this._player.container.width
     }
 
+    // 绘制
     public drawFrame (frame: number) {
       const player = this._player
       if (player.intersectionObserverRender && !player.intersectionObserverRenderShow) {
