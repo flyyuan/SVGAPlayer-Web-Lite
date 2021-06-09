@@ -45,6 +45,7 @@ export default class Parser {
     }
 
     return new Promise((resolve, reject) => {
+      // TODO： 二进制转为 VideoEntity
       if ((this.worker as mockWebWorker).disableWorker) {
         const worker = (this.worker as mockWebWorker)
         worker.onmessageCallback = (data: VideoEntity) => {
