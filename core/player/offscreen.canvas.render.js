@@ -6,16 +6,17 @@ const validMethods = 'MLHVCSQRZmlhvcsqrz'
 
 function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) {
   const context = canvas.getContext('2d')
-
   videoItem.sprites.forEach(sprite => {
     const frameItem = sprite.frames[currentFrame]
-
     if (frameItem.alpha < 0.05) {
       return
     }
 
+    console.log(sprite)
+    console.log(frameItem)
     context.save()
     context.globalAlpha = frameItem.alpha
+    // CanvasRenderingContext2D.transform() 是 Canvas 2D API 使用矩阵多次叠加当前变换的方法
     context.transform(
       frameItem.transform.a || 1,
       frameItem.transform.b || 0,

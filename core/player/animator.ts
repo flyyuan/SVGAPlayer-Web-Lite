@@ -68,15 +68,20 @@ export default class Animator {
     }
   }
 
+  /**
+   * 更新当前帧
+   */
   private _doFrame () {
     if (this._isRunning) {
       this._doDeltaTime(this._currentTimeMillsecond() - this._mStartTime)
 
       if (this._isRunning) {
         if (this._worker) {
+          // 更新当前帧 index
           this._worker.onmessage = this._doFrame.bind(this)
           this._worker.postMessage(null)
         } else {
+          // 根据 requestAnimationFrame 时机更新当前帧 index
           window.requestAnimationFrame(this._doFrame.bind(this))
         }
       }
