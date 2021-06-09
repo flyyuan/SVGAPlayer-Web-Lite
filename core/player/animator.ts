@@ -89,6 +89,12 @@ export default class Animator {
   }
 
   private _doDeltaTime (deltaTime: number) {
+    /**
+    * deltaTime 当前时间与开始播放时间间隔时长
+    * duration 动画时长
+    * loop 循环次数
+    * 如果 deltaTime 大于 duration * loop 则代表播放结束，小于就没播完
+    */
     if (deltaTime >= this.duration * this.loop) {
       this._currentFrication = this.fillRule === 1 ? 0.0 : 1.0
       this._isRunning = false
