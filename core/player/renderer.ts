@@ -1,6 +1,9 @@
 import Player from '../player/index'
 import render from './offscreen.canvas.render'
 
+/**
+ * 动画渲染
+ */
 export default class Renderer {
     private _player: Player
     private _bitmapCache: {[key: string]: HTMLImageElement} = {}

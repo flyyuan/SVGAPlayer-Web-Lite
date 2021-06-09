@@ -52,6 +52,13 @@ export default class Player {
   private _renderer: any
   private _animator: any
 
+  /**
+   * 注入 container 容器
+   * 实例化 _renderer 和 _animator
+   * @param element 
+   * @param videoItem 
+   * @param options 
+   */
   constructor (element: string | HTMLCanvasElement, public videoItem: VideoEntity, options?: options) {
     this.container = typeof element === 'string' ? <HTMLCanvasElement>document.body.querySelector(element) : element
 
@@ -62,9 +69,10 @@ export default class Player {
     if (!this.container.getContext) {
       throw new Error('container should be HTMLCanvasElement.')
     }
-
+    // Renderer 是渲染处理 和 Animator 是动画处理
     this._renderer = new Renderer(this)
     this._animator = new Animator()
+    // videoItem 是什么，为什么 mount
     this.videoItem && this.mount(videoItem)
 
     if (options) {
@@ -105,6 +113,11 @@ export default class Player {
     this._animator.noExecutionDelay = options.noExecutionDelay
   }
 
+  /**
+   * 挂载 SVGA 数据对象
+   * @param videoItem 
+   * @returns 
+   */
   public mount (videoItem: VideoEntity) {
     return new Promise((resolve, reject) => {
       this.currentFrame = 0
@@ -112,7 +125,9 @@ export default class Player {
       this.totalFramesCount = videoItem.frames - 1
       this.videoItem = videoItem
 
+      // TODO：_renderer.prepare 做了什么
       this._renderer.prepare().then(resolve)
+      // TODO： _renderer.clear 做了什么
       this._renderer.clear()
       this._setSize()
     })
@@ -189,6 +204,9 @@ export default class Player {
     return this
   }
 
+  /**
+   * 开始播放动画
+   *  */ 
   private _startAnimation () {
     const { playMode, totalFramesCount, startFrame, endFrame, videoItem } = this
 

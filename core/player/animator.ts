@@ -2,6 +2,9 @@ const WORKER = `onmessage = function () {
   setTimeout(function() {postMessage(null)}, 1 / 60)
 }`
 
+/**
+ * 动画处理
+ */
 export default class Animator {
   public _currentTimeMillsecond: () => number = () => {
     if (typeof performance === 'undefined') {

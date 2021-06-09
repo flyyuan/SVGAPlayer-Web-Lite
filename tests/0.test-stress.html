@@ -17,7 +17,10 @@ canvas { width: 200px; height: 200px; }
 
       const downloader = new window.SVGA.Downloader()
       const parser = new window.SVGA.Parser()
+      // Player constructor
       const player = new window.SVGA.Player(canvas)
+
+      // 自定义播放器参数
       player.set({
         cacheFrames: true,
         intersectionObserverRender: true
@@ -25,7 +28,9 @@ canvas { width: 200px; height: 200px; }
 
       downloader.get(item).then(fileData => {
         parser.do(fileData).then(svgaData => {
+          //挂载 SVGA 数据对象
           player.mount(svgaData).then(() => {
+            // 开始播放动画
             player.start()
             downloader.destroy()
             parser.destroy()
