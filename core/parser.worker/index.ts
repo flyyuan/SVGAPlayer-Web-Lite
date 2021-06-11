@@ -32,8 +32,9 @@ worker.onmessage = function (event: any) {
 
   for (let key in movie.images) {
     const element = movie.images[key]
+        // images Uint8Array 转 String，目的是可以转 base-64
     const value = u8aToString(element)
-
+    // 编码成 base-64 ，目的是图片变成可用，原来的 Uint8Array 不是可读的图片编码
     images[key] = btoa(value)
   }
 

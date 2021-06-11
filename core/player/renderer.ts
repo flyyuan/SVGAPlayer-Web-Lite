@@ -46,7 +46,6 @@ export default class Renderer {
             img.src = 'data:image/png;base64,' + src
 
             this._bitmapCache[imageKey] = img
-
             img.onload = () => {
               loadedCount++
               loadedCount === totalCount && resolve()
@@ -73,13 +72,13 @@ export default class Renderer {
 
       const context2d = player.container.getContext('2d')!!
 
-      if (this._player.cacheFrames && this._frames[frame]) {
-        const ofsFrame = this._frames[frame]
-        // ImageData
-        // context.putImageData(ofsFrame, 0, 0)
-        context2d.drawImage(ofsFrame, 0, 0, ofsFrame.width, ofsFrame.height, 0, 0, ofsFrame.width, ofsFrame.height)
-        return
-      }
+      // if (this._player.cacheFrames && this._frames[frame]) {
+      //   const ofsFrame = this._frames[frame]
+      //   // ImageData
+      //   // context.putImageData(ofsFrame, 0, 0)
+      //   context2d.drawImage(ofsFrame, 0, 0, ofsFrame.width, ofsFrame.height, 0, 0, ofsFrame.width, ofsFrame.height)
+      //   return
+      // }
 
       const ofsCanvas = this._ofsCanvas
 
@@ -94,24 +93,27 @@ export default class Renderer {
         this._player.currentFrame
       )
 
+      console.log(   0, 0, ofsCanvas.width, ofsCanvas.height,
+        0, 0, ofsCanvas.width, ofsCanvas.height)
+
       context2d.drawImage(
         ofsCanvas,
         0, 0, ofsCanvas.width, ofsCanvas.height,
         0, 0, ofsCanvas.width, ofsCanvas.height
       )
 
-      if (this._player.cacheFrames) {
-        // ImageData
-        // const imageData = (ofsCanvas.getContext('2d') as OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D).getImageData(0, 0, ofsCanvas.width, ofsCanvas.height)
-        // this._frames[frame] = imageData
-        if ('toDataURL' in ofsCanvas) {
-          const ofsImageBase64 = ofsCanvas.toDataURL()
-          const ofsImage = new Image()
-          ofsImage.src = ofsImageBase64
-          this._frames[frame] = ofsImage
-        } else {
-          this._frames[frame] = ofsCanvas.transferToImageBitmap()
-        }
-      }
+      // if (this._player.cacheFrames) {
+      //   // ImageData
+      //   // const imageData = (ofsCanvas.getContext('2d') as OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D).getImageData(0, 0, ofsCanvas.width, ofsCanvas.height)
+      //   // this._frames[frame] = imageData
+      //   if ('toDataURL' in ofsCanvas) {
+      //     const ofsImageBase64 = ofsCanvas.toDataURL()
+      //     const ofsImage = new Image()
+      //     ofsImage.src = ofsImageBase64
+      //     this._frames[frame] = ofsImage
+      //   } else {
+      //     this._frames[frame] = ofsCanvas.transferToImageBitmap()
+      //   }
+      // }
     }
 }

@@ -6,17 +6,22 @@ const validMethods = 'MLHVCSQRZmlhvcsqrz'
 
 function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) {
   const context = canvas.getContext('2d')
+  console.log(currentFrame)
+  console.log(videoItem)
   videoItem.sprites.forEach(sprite => {
     const frameItem = sprite.frames[currentFrame]
+    // console.log(frameItem)
     if (frameItem.alpha < 0.05) {
       return
     }
 
-    console.log(sprite)
-    console.log(frameItem)
+    // console.log(sprite)
+    // console.log(frameItem)
+    // 保存 canvas 全部状态
     context.save()
     context.globalAlpha = frameItem.alpha
     // CanvasRenderingContext2D.transform() 是 Canvas 2D API 使用矩阵多次叠加当前变换的方法
+    // 位移
     context.transform(
       frameItem.transform.a || 1,
       frameItem.transform.b || 0,
@@ -28,55 +33,56 @@ function render (canvas, bitmapCache, dynamicElements, videoItem, currentFrame) 
 
     const img = bitmapCache[sprite.imageKey]
     if (img) {
-      if (frameItem.maskPath !== undefined && frameItem.maskPath !== null) {
-        frameItem.maskPath._styles = undefined
-        drawBezier(context, frameItem.maskPath)
-        context.clip()
-      }
+      // if (frameItem.maskPath !== undefined && frameItem.maskPath !== null) {
+      //   frameItem.maskPath._styles = undefined
+      //   drawBezier(context, frameItem.maskPath)
+      //   context.clip()
+      // }
       context.drawImage(img, 0, 0)
     }
 
-    const dynamicElement = dynamicElements[sprite.imageKey]
-    if (dynamicElement) {
-      context.drawImage(dynamicElement, (frameItem.layout.width - dynamicElement.width) / 2, (frameItem.layout.height - dynamicElement.height) / 2)
-    }
+    // const dynamicElement = dynamicElements[sprite.imageKey]
+    // if (dynamicElement) {
+    //   context.drawImage(dynamicElement, (frameItem.layout.width - dynamicElement.width) / 2, (frameItem.layout.height - dynamicElement.height) / 2)
+    // }
 
-    frameItem.shapes && frameItem.shapes.forEach(shape => {
-      if (shape.type === 'shape' && shape.pathArgs && shape.pathArgs.d) {
-        drawBezier(
-          context,
-          new BezierPath(
-            shape.pathArgs.d,
-            shape.transform,
-            shape.styles
-          )
-        )
-      } else if (shape.type === 'ellipse' && shape.pathArgs) {
-        drawEllipse(
-          context,
-          new EllipsePath(
-            parseFloat(shape.pathArgs.x) || 0.0,
-            parseFloat(shape.pathArgs.y) || 0.0,
-            parseFloat(shape.pathArgs.radiusX) || 0.0,
-            parseFloat(shape.pathArgs.radiusY) || 0.0,
-            shape.transform,
-            shape.styles
-          )
-        )
-      } else if (shape.type === 'rect' && shape.pathArgs) {
-        drawRect(
-          context,
-          new RectPath(
-            parseFloat(shape.pathArgs.x) || 0.0,
-            parseFloat(shape.pathArgs.y) || 0.0,
-            parseFloat(shape.pathArgs.width) || 0.0,
-            parseFloat(shape.pathArgs.height) || 0.0,
-            parseFloat(shape.pathArgs.cornerRadius) || 0.0,
-            shape.transform, shape.styles
-          )
-        )
-      }
-    })
+    // frameItem.shapes && frameItem.shapes.forEach(shape => {
+    //   if (shape.type === 'shape' && shape.pathArgs && shape.pathArgs.d) {
+    //     drawBezier(
+    //       context,
+    //       new BezierPath(
+    //         shape.pathArgs.d,
+    //         shape.transform,
+    //         shape.styles
+    //       )
+    //     )
+    //   } else if (shape.type === 'ellipse' && shape.pathArgs) {
+    //     drawEllipse(
+    //       context,
+    //       new EllipsePath(
+    //         parseFloat(shape.pathArgs.x) || 0.0,
+    //         parseFloat(shape.pathArgs.y) || 0.0,
+    //         parseFloat(shape.pathArgs.radiusX) || 0.0,
+    //         parseFloat(shape.pathArgs.radiusY) || 0.0,
+    //         shape.transform,
+    //         shape.styles
+    //       )
+    //     )
+    //   } else if (shape.type === 'rect' && shape.pathArgs) {
+    //     drawRect(
+    //       context,
+    //       new RectPath(
+    //         parseFloat(shape.pathArgs.x) || 0.0,
+    //         parseFloat(shape.pathArgs.y) || 0.0,
+    //         parseFloat(shape.pathArgs.width) || 0.0,
+    //         parseFloat(shape.pathArgs.height) || 0.0,
+    //         parseFloat(shape.pathArgs.cornerRadius) || 0.0,
+    //         shape.transform, shape.styles
+    //       )
+    //     )
+    //   }
+    // })
+    // 还原到上次保存的默认状态
     context.restore()
   })
 
