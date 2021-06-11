@@ -34,6 +34,8 @@ export default class Animator {
   }
 
   public get animatedValue (): number {
+    // 帧计算重点2：
+    // （总帧数 * 单个动画播放进度）+开始帧位置 = 当前时刻播放第几帧 
     return ((this.endValue - this.startValue) * this._currentFrication) + this.startValue
   }
 
@@ -99,6 +101,9 @@ export default class Animator {
       this._currentFrication = this.fillRule === 1 ? 0.0 : 1.0
       this._isRunning = false
     } else {
+      //帧计算重点1: 
+      // deltaTime 对 duration 取余算出单个动画播放剩下的时间
+      // 单个动画播放剩下的时间 处以 duration 得出单个动画播放进度
       this._currentFrication = (deltaTime % this.duration) / this.duration
     }
 
